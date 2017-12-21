@@ -36,11 +36,13 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/mdb.min.css">
         <link rel="stylesheet" type="text/css" href="css/bootstrap-toggle.min.css">
-        <title>Hello World</title>
+      
+        <title>Reminder App</title>
     </head>
 <body>
      <div class="app">
             <nav class="navbar navbar-dark default-color">
+                <i class="fa fa-clock-o"></i>
             <a class="navbar-brand" href="#">
         Remind Me to Waking Up
     </a>
@@ -48,7 +50,7 @@
 </nav>
             <div id="deviceready" class="blink">
                 <p class="event listening">Connecting to Device</p>
-                <p class="event received" style="display:none">Device is Ready</p>
+               <p class="event received" style="display:none">Device is Ready</p> 
                 <div class="alert alert-danger" id="error_internet" style="display: none">
                         <strong>Error!</strong> Device's not connected.
                 </div>
@@ -57,18 +59,26 @@
                 </div>
             <div class="disable_list">
                 <div class="list-group list_group">
-                    <a href="#" class="list-group-item list">Item<div class="material-switch pull-right">
-                                                                        <input id="someSwitchOptionDefault" name="someSwitchOption001" type="checkbox"/>
-                                                                         <label for="someSwitchOptionDefault" class="label-success"></label>
-                                                               </div></a>
-                    <a href="#" class="list-group-item list">Second item<div class="material-switch pull-right">
-                                                                        <input id="someSwitchOptionDefault" name="someSwitchOption001" type="checkbox"/>
-                                                                         <label for="someSwitchOptionDefault" class="label-success"></label>
-                                                               </div></a>
-                    <a href="#" class="list-group-item list">Third item<div class="material-switch pull-right">
-                                                                        <input id="someSwitchOptionDefault" name="someSwitchOption001" type="checkbox"/>
-                                                                         <label for="someSwitchOptionDefault" class="label-success"></label>
-                                                               </div></a>
+                    <a href="#" class="list-group-item list_info">
+                        <p class="list">Item</p>
+                        <p id="name" class="name"></p>
+                        <div id="WeekDate" class="weekDate" style="display: inline;"><p class="Lundi">L</p> <p class="Mardi">M</p> <p class="Mercredi">M</p> <p class="Jeudi">J</p> <p class="Vendredi">V</p> <p class="Samedi">S</p> <p class="Dimanche">D</p></div>
+                        <div class="material-switch">
+                                <input type="checkbox" checked data-toggle="toggle" data-onstyle="info">
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list_info"><p class="list">Item</p>
+                        <p id="name" class="name"></p>
+                        <div id="WeekDate" class="weekDate"><p class="Lundi">L</p> <p class="Mardi">M</p> <p class="Mercredi">M</p> <p class="Jeudi">J</p> <p class="Vendredi">V</p> <p class="Samedi">S</p> <p class="Dimanche">D</p></div>
+                        <div class="material-switch">
+                                <input type="checkbox" checked data-toggle="toggle" data-onstyle="info">
+                        </div></a>
+                    <a href="#" class="list-group-item list_info"><p class="list">Item</p>
+                        <p id="name" class="name"></p>
+                        <div id="WeekDate" class="weekDate"><p class="Lundi">L</p> <p class="Mardi">M</p> <p class="Mercredi">M</p> <p class="Jeudi">J</p> <p class="Vendredi">V</p> <p class="Samedi">S</p> <p class="Dimanche">D</p></div>
+                        <div class="material-switch">
+                                <input type="checkbox" checked data-toggle="toggle" data-onstyle="info">
+                        </div></a>
                     <a id="data"></a>
                 </div>
                 
@@ -88,15 +98,21 @@
                                                             <input type="text" class="form-control" id="usr"        >
                                                         </div></a>
                     <a href="#" class="list-group-item" ><div class="form-group">
-                                                            <label for="datetime">Date:</label>
-                                                            <input type="date" max="2020-02-17" min="2017-11-13" name="the_date" id="datetime"></div><a>
+                                                            <label for="exampleFormControlSelect2">Jour</label>
+                                                            <select multiple class="form-control" id="daySelected">
+                                                              <option>Lundi</option>
+                                                              <option>Mardi</option>
+                                                              <option>Mercredi</option>
+                                                              <option>Jeudi</option>
+                                                              <option>Vendredi</option>
+                                                              <option>Samedi</option>
+                                                              <option>Dimanche</option>     
+                                                            </select>
+                                                         </div>                
                     <a href="#" class="list-group-item"><div class="form-group">
                                                             <label for="time">Time:</label>
                                                             <input id="time" type="time" /></div></a>
-                    <a href="#" class="list-group-item">Vibreur<div class="material-switch pull-right">
-                                                                        <input id="someSwitchOptionDefault" name="someSwitchOption001" type="checkbox"/>
-                                                                         <label for="someSwitchOptionDefault" class="label-success"></label>
-                                                               </div></a>
+                    <a href="#" class="list-group-item">Vibreur<input id="checksound" type="checkbox" checked data-toggle="toggle">
                     <a href="#" class="list-group-item">Sons<input id="checksound" type="checkbox" checked data-toggle="toggle"></a>
 
 
@@ -114,6 +130,7 @@
            <script type="text/javascript" src="js/popper.min.js"></script>
            <script type="text/javascript" src="js/SwipeOut.js"></script>
            <script type="text/javascript" src="js/Hammer.js"></script>
+           <script type="text/javascript" src="js/bootstrap-toggle.min.js"></script>
 
         
     </body>

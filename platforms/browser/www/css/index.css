@@ -15,7 +15,27 @@
     width: 40px;  
 }
 
+.material-switch{
+    float: right;
+}
 
+.highlight{
+    color: red;
+}
+
+p{
+    display: inline !important;
+
+}
+.name{
+    margin-left: 50px;
+}
+
+.weekDate{
+    margin-left: 50px;
+    padding: 20px;
+    display: inline;
+}
 
 
 #add_row{

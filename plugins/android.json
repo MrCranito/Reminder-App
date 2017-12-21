@@ -27,6 +27,9 @@
     },
     "cordova-plugin-vibration": {
       "PACKAGE_NAME": "com.ynov.b3.app03"
+    },
+    "cordova-plugin-nativestorage": {
+      "PACKAGE_NAME": "com.ynov.b3.app03"
     }
   },
   "dependent_plugins": {

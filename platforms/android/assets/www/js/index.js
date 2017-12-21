@@ -70,64 +70,92 @@ var app = {
 
             $("#add_row").on("click",function() {
                 var x=0;
-         $('.list').each(function(){
-             x++;
-                 });
-            x=x+1;
-            $('.disable_list').hide();
-            $(".disable_add").show();
-            $('.list_group').append("<a href='#' class='list-group-item list' id='reveil'"+x+"''><div class='material-switch pull-right'><input id='someSwitchOptionDefault' name='someSwitchOption001' type='checkbox'/><label for='someSwitchOptionDefault' class='label-success'></label></div></a></a>");
+                     $('.list').each(function(){
+                       x++;
+                       });
+                x=x+1;
+                $('.disable_list').hide();
+                $(".disable_add").show();
+                $('.list_group').append("<a href='#' class='list-group-item list_info' id='reveil'"+x+"''><p class='list'></p><p id='name'"+x+"'' class='name'></p><p class='weekDate' id='WeekDate'"+x+"'><p class='Lundi'>L</p> <p class='Mardi'>M</p> <p class='Mercredi'>M</p> <p class='Jeudi'>J</p> <p class='Vendredi'>V</p> <p class='Samedi'>S</p> <p class='Dimanche'>D</p></p><div class='material-switch pull-right'><input type='checkbox' checked data-toggle='toggle' data-onstyle='info'></div></a>");
             
-            x++;
+                x++;
             
-        });
+           });
             
-            $(document).ready(function(){
+$(document).ready(function(){
+  var myName ="";
+
   $('#datetime').on("change",function(){
-       console.log('Updated Date');
-       var myDate = new Date($(this).val());
-       var Daily = myDate.toISOString().slice(0,10);
-       console.log(Daily);
+    console.log('Updated Date');
+    var myDate = new Date($(this).val());
+    var Daily = myDate.toISOString().slice(0,10);
+    console.log(Daily);
     localStorage.setItem("Date",Daily);
   });
-  $('#usr').change(function(){
-       console.log('Updated name');
+
+
+   $("#usr").on("change", function () {
+      myName = $(this).val();
+      localStorage.setItem("Name",myName);
+      console.log(myName);
   });
-  $('#time').change(function(){
-       console.log('Updated time');
-  });
-  $('#checkvibrator').change(function(){
-       console.log('Updated vibrator');
-  });
-  $('#checksound').change(function(){
-       console.log('Updated sound');
-  });
-  var myName ="";
-  $("#usr").on("change", function () {
+  
+   $("#checkvibrator").on("change", function () {
+       var myvibrator =$(this).val();
+        localStorage.setItem("Vibrator",myvibrator);
+        console.log(myvibrator);
+});
     
-    myName = $(this).val();
-    localStorage.setItem("Name",myName);
-    console.log(myName);
-});
-  $("#checkvibrator").on("change", function () {
-    var myvibrator =$(this).val();
-    localStorage.setItem("Vibrator",myvibrator);
-    console.log(myvibrator);
-});
-  $("#checksound").on("change", function () {
+   $("#checksound").on("change", function () {
     var mysound =$(this).val();
     localStorage.setItem("Sound",mysound);
     console.log(mysound);
 });
-  $("#time").on("change", function () {
+   $("#time").on("change", function () {
     var mytime =$(this).val();
     localStorage.setItem("Time",mytime);
     console.log(mytime);
 });
-}); 
-(function() {
-  $(document).ready(function() {
-    $('#checkvibrator').on('change', function() {
+   $("#daySelected").on("change", function () {
+    var day =""+$(this).val()+"";
+    var temp = new Array();
+        // this will return an array with strings "1", "2", etc.
+    temp = day.split(",");
+    for (i=0; i < temp.length;i++){
+        switch(temp[i]){
+            case "Lundi":
+                temp[i] = "L";
+                break;
+            case "Mardi":
+                temp[i] = "Ma";
+                break;
+            case "Mercredi":
+                temp[i] = "Me";
+                break;
+            case "Jeudi":
+                temp[i] = "J";
+                break;
+            case "Vendredi":
+                temp[i] = "V";
+                break;
+            case "Samedi":
+                temp[i] = "S";
+                break;
+            case "Dimanche":
+                temp[i] = "D";
+                break;
+
+
+        };
+            
+    };
+    
+    console.log(temp);
+    localStorage.setItem("Day",[temp]);
+    console.log(temp);
+        
+});
+   $('#checkvibrator').on('change', function() {
       var isChecked = $(this).is(':checked');
       var selectedData;
       var $switchLabel = $('#checkvibrator');
@@ -144,25 +172,57 @@ var app = {
       
 
     });
-  });
-
-})();   
- var Datauser = {"1":{"name":"name","date":"2015-03-04","time":"12:00","sound":"on","Vibrator":"on"},"2":{"name":"richard","date":"1996-11-02","time":"13:00","sound":"on","Vibrator":"on"},"3":{"name":"youl","date":"2009-02-03","time":"14:00","sound":"on","Vibrator":"on"}};
+});
+   
+var Datauser = {"1":{"name":"name","day":["L","Ma","Me"],"time":"12:00","sound":"on","Vibrator":"on"},"2":{"name":"richard","day":["Ma"],"time":"13:00","sound":"on","Vibrator":"on"},"3":{"name":"youl","day":["Me"],"time":"14:00","sound":"on","Vibrator":"on"}};
 
  $('#save').on("click",function(){
     $('.disable_add').hide();
-  $('.disable_list').show();
+     $('.disable_list').show();
     var i=0;
-    $('.list').each(function(){
-             i++;
-             console.log(i);
-    });     
-    Datauser[""+i] = {"name":localStorage.getItem("Name"),"date":localStorage.getItem("Date"),"time":localStorage.getItem("Time"),"sound":localStorage.getItem("Sound"),"Vibrator":localStorage.getItem("Vibrator")};
+    Datauser[""+localStorage.getItem("ID")] = {"name":localStorage.getItem("Name"),"day":[localStorage.getItem("Day")],"time":localStorage.getItem("Time"),"sound":localStorage.getItem("Sound"),"Vibrator":localStorage.getItem("Vibrator")};
     console.log(Datauser);
  });
 
  
-        
+          // CREATE
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+
+    console.log('file system open: ' + fs.name);
+    fs.root.getFile("newPersistentFile.txt", { create: true, exclusive: false }, function (fileEntry) {
+
+        console.log("fileEntry is file?" + fileEntry.isFile.toString());
+        // fileEntry.name == 'someFile.txt'
+        // fileEntry.fullPath == '/someFile.txt'
+        writeFile(fileEntry, null);
+
+    });
+
+});
+    function writeFile(fileEntry, dataObj) {
+    // Create a FileWriter object for our FileEntry (log.txt).
+    fileEntry.createWriter(function (fileWriter) {
+
+        fileWriter.onwriteend = function() {
+            console.log("Successful file write...");
+            
+        };
+
+        fileWriter.onerror = function (e) {
+            console.log("Failed file write: " + e.toString());
+        };
+
+        // If data object is not passed in,
+        // create a new Blob instead.
+        if (!dataObj) {
+            dataObj = new Blob(['some file data'], { type: 'text/plain' });
+        }
+
+        fileWriter.write(dataObj);
+    });
+}
+
+
 
 
     function printTime(){
@@ -173,21 +233,107 @@ var app = {
             $(this).attr('id',newID);
             $(this).val(i);
             var Id_row = i;
-            $('#'+newID+'').html(Datauser[""+Id_row].time);                                                          
+            $('#'+newID+'').html(Datauser[""+Id_row].time);
+           
+
             }); 
+          }
+
+    function printName(){
+      var i =0;
+             $('.name').each(function(){
+              i++;
+                var newName='name'+i;
+                $(this).attr('id',newName);
+                var Id_row = i;
+                $('#'+newName+'').html(Datauser[""+Id_row].name);
+            });
+    
 
             
             
 }   
 
+function printDay(){
+      var i =0;
+       var x =1;
+             $('.weekDate').each(function(){
+               
+                i++;
+                var newWeek='weekDate'+x;
+                $(this).attr('id',newWeek);
+                var Id_row = x;
+                x++;
+                var array = new Array();
+                var Data = Datauser[""+Id_row].day + "";
+
+                array = Data.split(",");
+                console.log(array);
+                for (i = 0;i < array.length; i++){
+                    if(array[i] =="L"){
+                        $('#'+newWeek+'').children("p.Lundi").addClass("highlight");
+                    }
+                    else if(array[i]=="Ma"){
+                         $('#'+newWeek+'').children("p.Mardi").addClass("highlight");
+                    }
+                    
+                    else if(array[i] =="Me"){
+                        
+                            $('#'+newWeek+'').children("p.Mercredi").addClass("highlight");
+                    }
+                    
+                    else if(array[i]=="J"){
+                        
+                         $('#'+newWeek+'').children("p.Jeudi").addClass("highlight");
+                        }
+                    
+                    else if(array[i]=="V"){
+                         $('#'+newWeek+'').children("p.Vendredi").addClass("highlight");
+                    }
+                    else if(array[i]=="S"){
+                         $('#'+newWeek+'').children("p.Samedi").addClass("highlight");
+                    }
+                    else if(array[i]=="D"){
+                        
+                         $('#'+newWeek+'').children("p.Dimanche").addClass("highlight");
+                    
+                    }
+                    else{
+                        $('#'+newWeek+'').children("p.Dimanche").removeClass("highlight");
+                        $('#'+newWeek+'').children("p.Lundi").removeClass("highlight");
+                        $('#'+newWeek+'').children("p.Samedi").removeClass("highlight");
+                        $('#'+newWeek+'').children("p.Vendredi").removeClass("highlight");
+                        $('#'+newWeek+'').children("p.Jeudi").removeClass("highlight");
+                        $('#'+newWeek+'').children("p.Mercredi").removeClass("highlight");
+                        $('#'+newWeek+'').children("p.Mardi").removeClass("highlight");
+                    }
+                        
+
+                    }
+                    
+
+                
+            });
+       
     
+
+            
+            
+}   
+
+    setInterval(printDay,2000);    
     setInterval(printTime,2000);
+    setInterval(printName,2000);
     printTime();
+
 var q=1; 
-function addurl(){
-    $('.list').each(function(){
+
+
+
+$('.list_info').each(function(){
     var Id_row_add = q;
      $(this).on("click",function(){
+        localStorage.setItem("ID",Id_row_add);
         $('.disable_list').hide();
         $('.disable_add').show();
         console.log(Datauser[""+Id_row_add].name);
@@ -200,90 +346,31 @@ function addurl(){
      q++;
 
 });
-
-}
-$('.list').each(function(){
-    var Id_row_add = q;
-     $(this).on("click",function(){
-        $('.disable_list').hide();
-        $('.disable_add').show();
-        console.log(Datauser[""+Id_row_add].name);
-        $('#usr').val(""+Datauser[""+Id_row_add].name);
-        $('#time').val(Datauser[""+Id_row_add].time);
-        $('#datetime').val(Datauser[""+Id_row_add].date);
     
-        
-    });
-     q++;
-
-});
-        
-
-function WriteJSONinFile(){
-   var type = window.TEMPORARY;
-   var size = 5*1024*1024;
-   window.requestFileSystem(type, size, successCallback, errorCallback)
-
-   function successCallback(fs) {
-      fs.root.getFile('log.txt', {create: true}, function(fileEntry) {
-
-         fileEntry.createWriter(function(fileWriter) {
-            fileWriter.onwriteend = function(e) {
-               alert('Write completed.');
-            };
-
-            fileWriter.onerror = function(e) {
-               alert('Write failed: ' + e.toString());
-            };
-
-            var blob = new Blob([Datauser], {type: 'text/plain'});
-            fileWriter.write(blob);
-         }, errorCallback);
-      }, errorCallback);
-   }
-
-
-   function errorCallback(error) {
-      alert("ERROR: " + error.code)
-   }
-}
-    
-
-    
-    setInterval(addurl,2000);
-
-    function removeItemsById(arr, id) {
-    var w = arr.length;
-    if (w) {   // (not 0)
-        while (--w) {
-            var cur = arr[w];
-            if (cur.id == id) {
-                arr.splice(w, 1);
-            }
-        }
-    }
-}
    
    function VibrateReminder(){
 
     var DateNow = new Date();
     var DayDateNOW = DateNow.getHours();
     var MinDateNow = DateNow.getMinutes();
+    if(MinDateNow < 10){
+        MinDateNow = "0"+MinDateNow;
     
     var stringDate = ""+DayDateNOW+":"+MinDateNow;
     console.log(stringDate);
     var patternVibrator = [1000, 1000, 1000, 1000];
     var i = 0;
+
     $('.list').each(function(){
         i++;
         if(stringDate == Datauser[""+i].time){
-            navigator.vibrator(patternVibrator);
+            navigator.vibrate(patternVibrator);
             document.addEventListener('deviceready', function () {
                 // cordova.plugins.backgroundMode is now available
                 cordova.plugins.backgroundMode.enable();
                 cordova.plugins.notification.local.schedule({
                 title: 'Time to Waking Up',
-                text: Datauser[""+i].name,
+                text: 'Reveil',
                 actions: [
                     { id: 'yes', title: 'Yes' },
                     { id: 'no',  title: 'No' }
@@ -294,6 +381,8 @@ function WriteJSONinFile(){
         }
 
     });
+    
+}
 }
     setInterval(VibrateReminder,1000);
     
